@@ -31,8 +31,8 @@ public class Player {
         return hand;
     }
 
-    public void setCards(ArrayList<Card> cards) {
-        this.hand= cards;
+    public void setHand(ArrayList<Card> cards) {
+        this.hand = cards;
     }
 
     public int getPoints() {
