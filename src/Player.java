@@ -9,6 +9,7 @@ public class Player {
     public Player(String name){
         this.name = name;
         this.points = 0;
+        this.hand = new ArrayList<>();
     }
 
     // Constructor takes in player name, hand of cards, sets points to 0

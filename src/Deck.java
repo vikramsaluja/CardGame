@@ -36,7 +36,7 @@ public class Deck {
 
     public void shuffle(){
         // For loop that runs starting at the highest index to the lowest
-        for(int i = cards.size() -1; i > 0; i++){
+        for(int i = cards.size() - 1; i > 0; i--){
             // Generates a random integer in between 0 and i
             int random = (int) (Math.random() * (i + 1));
 
