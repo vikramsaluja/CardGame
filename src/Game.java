@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -37,11 +38,59 @@ public class Game {
 
     }
 
+    public boolean checkHand(Player player, String choice){
+        if(player.getHand().contains(choice)){
+            return true;
+        }
+        return false;
+    }
+
+    // 1. Ask player for what rank card they want to fish for
+    // 2. Check to make sure player contains at least card of the rank that they are asking for
+    // 3. if opponent has a card of that rank then it adds that card to player hand and removes it from player 2
+    // 4. If player has 4 of kind then gives player a point and the 4 get removed from opponent
+    public void playRound(Player player, Player opponent){
+        Scanner input = new Scanner(System.in);
+        System.out.println(player.getName() + "'s turn: what card would you like to fish for?");
+        String choice = input.nextLine();
+
+        if(!checkHand(player, choice)){
+            System.out.println("Invalid Input");
+            return;
+        }
+
+        // If players choice matches opponents card add it to new arraylist
+        ArrayList<Card> matching = new ArrayList<Card>();
+        for(Card card : opponent.getHand()){
+            if(card.getRank().equals(choice)){
+                matching.add(card);
+            }
+        }
+
+        // If matching arraylist isnt empty then transfer all of opponents cards to player
+        if(!matching.isEmpty()){
+            for(Card card: matching){
+                opponent.getHand().remove(card);
+                player.addCard(card);
+            }
+            System.out.println(opponent.getName() + " gave you " + matching.size() + " cards");
+        }
+        // If there were no matches then player takes card from empty pile
+        else
+        {
+
+        }
+
+
+    }
+
+
     public void playGame(){
         printInstructions();
         // Print out both the players starting hand
         System.out.println(player1.getName() + "'s cards:" + player1.getHand());
         System.out.println(player2.getName() + "'s cards:" + player2.getHand());
+
 
 
     }
