@@ -45,6 +45,13 @@ public class Game {
         return false;
     }
 
+    // Checks which player has more points and returns
+    public String gameOver(){
+        if(player1.getPoints() > player2.getPoints()){
+            return "Game over! \n" + player1.getName() + " is the winner with " + player1.getPoints() + " books!";
+        }
+    }
+
     // 1. Ask player for what rank card they want to fish for
     // 2. Check to make sure player contains at least card of the rank that they are asking for
     // 3. if opponent has a card of that rank then it adds that card to player hand and removes it from player 2
@@ -78,7 +85,18 @@ public class Game {
         // If there were no matches then player takes card from empty pile
         else
         {
+            System.out.println("No Match, Pick card from a pile");
 
+            Card newCard = deck.deal();
+            if(newCard != null) {
+                player.addCard(newCard);
+                System.out.println(player.getName() + " pulled a " + newCard);
+            }
+            // If there are no cards left in the deck, end game
+            else {
+                System.out.println("No cards left in pile!");
+                System.out.println(gameOver());
+            }
         }
 
 
