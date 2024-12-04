@@ -35,6 +35,15 @@ public class Card {
         this.value = value;
     }
 
+    public static boolean sameSuit(Card card, Card newCard){
+        if(card.getSuit().equals(newCard.getSuit())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public String toString() {
         return suit + " " +  rank;
 
