@@ -35,8 +35,9 @@ public class Card {
         this.value = value;
     }
 
+    // Takes in 2 cards and returns if they have the same suit
     public static boolean sameSuit(Card card, Card newCard){
-        if(card.getSuit().equals(newCard.getSuit())) {
+        if (card.getSuit().equals(newCard.getSuit())) {
             return true;
         }
         else {

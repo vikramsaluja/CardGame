@@ -21,15 +21,17 @@ public class Deck {
         return cardsLeft == 0;
     }
 
+    // getter method for cards
     public int getCardsLeft(){
         return this.cardsLeft;
     }
 
     public Card deal(){
-        // Returning null if there arent cards left
+        // Returning null if there aren't cards left
         if(isEmpty()){
             return null;
         }
+        // increment down every time a card is taken from the deck
         cardsLeft-- ;
         return cards.get(cardsLeft);
     }

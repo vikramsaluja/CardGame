@@ -1,3 +1,5 @@
+// Vikram Saluja Go Fish Card Game
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +15,7 @@ public class Game {
         int[] values = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
         this.deck = new Deck(rank, suits, values);
 
+        // shuffle deck every time a new game is created
         deck.shuffle();
 
         Scanner input = new Scanner(System.in);
@@ -34,19 +37,19 @@ public class Game {
         }
     }
 
+    // Prints instructions of game
     public static void printInstructions() {
-        System.out.println("instructions: \n");
+        System.out.println("instructions: \nThis is a 2 player game where each player will get get random hand" +
+                "containing a total of 6 cards.\nThe objective of the game is to get as many sets of matching cards or" +
+                " 'books'. When it is your turn you will ask the opposing player\nfor a card of certain rank and if " +
+                "the other player has a card you will recieve it and get to ask again.\nHowever if you ask for a rank " +
+                " that they do not have, you will randomly be dealt a card from the remaining pile of cards.\nThe game" +
+                " ends when there are not cards left in the pile and whoever has the most 'books' is the winner!\n" +
+                "NOTE: when user inputs are case and spelling sensative\n");
 
     }
 
 
-    // Needs to be debugged
-//    public boolean checkHand(Player player, String choice) {
-//        if (player.getHand().contains(choice)) {
-//            return true;
-//        }
-//        return false;
-//    }
 
     // Checks which player has more points and returns
     public String gameOver() {
@@ -66,10 +69,6 @@ public class Game {
         System.out.println(player.getName() + "'s turn: what card would you like to fish for?");
         String choice = input.nextLine();
 
-//        if (!checkHand(player, choice)) {
-//            System.out.println("Invalid Input");
-//            return;
-//        }
 
         // If players choice matches opponents card add it to new arraylist
         ArrayList<Card> matching = new ArrayList<Card>();
@@ -79,7 +78,7 @@ public class Game {
             }
         }
 
-        // If matching arraylist isnt empty then transfer all of opponents cards to player
+        // If matching arraylist isn't empty then transfer all of opponent's cards to player
         if (!matching.isEmpty()) {
             for (Card card : matching) {
                 opponent.getHand().remove(card);
@@ -91,56 +90,75 @@ public class Game {
         else {
             System.out.println("No Match, Pick card from a pile");
 
+            // Give player card from pile if there are cards left
             Card newCard = deck.deal();
             if (newCard != null) {
                 player.addCard(newCard);
                 System.out.println(player.getName() + " pulled a " + newCard);
             }
-            // If there are no cards left in the deck, end game
+            // Tell the user that there are no cards left in the pile
             else {
                 System.out.println("No cards left in pile!");
-                System.out.println(gameOver());
             }
         }
-        System.out.println(checkBooks(player, player.getHand()));
+        System.out.println(checkBooks(player));
     }
 
-    public String checkBooks(Player player, ArrayList<Card> playerHand){
+    public String checkBooks(Player player){
+        ArrayList<Card> playerHand = player.getHand();
         int newBooks = 0;
-        for(int i =  4; i > 0; i--){
+
+        // For each card in opponent's hand
+        int i = 0;
+        while(i < playerHand.size()){
+            // Make a copy of players hand
             ArrayList<Card> copyHand = new ArrayList<Card>();
+            copyHand = playerHand;
             int counter = 0;
+
+            // Set the card that is being checked
             Card check = playerHand.get(i);
 
-            for(int j = playerHand.size(); j < 1; j--){
+            // Find all matches to card and remove it from copy hand
+            for(int j = 0; j < playerHand.size(); j++){
                 if(Card.sameSuit(check, playerHand.get(j))){
                     counter++;
-                    playerHand.remove(j);
+                    copyHand.remove(j);
                 }
             }
 
-            // If the player does not have 4 of kind then reset the players hand
-            if (counter != 4){
+            // If the player does have 4 kind then set the players hand to the copy and increment points
+            if (counter == 4) {
                 player.setHand(copyHand);
                 playerHand = copyHand;
-            }
-            else {
                 newBooks += 1;
                 player.addPoints(1);
             }
+            else {
+                // If there is no match increment because array list has not shifted down
+                i++;
+            }
         }
+        // After each round is played tell user how many books they have
         return player.getName() + " has " + newBooks + " new Books!";
     }
 
-
+    // Method that runs the game
     public void playGame() {
         printInstructions();
-        // Print out both the players starting hand
-        System.out.println(player1.getName() + "'s cards:" + player1.getHand());
-        System.out.println(player2.getName() + "'s cards:" + player2.getHand());
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Click Enter to Play!");
+        input.nextLine();
 
         int turn = 0;
+        // Keep playing rounds when cards are left in the pile
         while (!deck.isEmpty()) {
+            // Print out both the players hands
+            System.out.println(player1.getName() + "'s cards:" + player1.getHand());
+            System.out.println(player2.getName() + "'s cards:" + player2.getHand());
+
+            // Alternate which players turn it is
             if (turn % 2 == 0) {
                 playRound(player1, player2);
                 turn++;
@@ -150,10 +168,15 @@ public class Game {
                 turn++;
             }
         }
+
+        // When deck is empty end game and print out winner
+        gameOver();
     }
 
+    // Main method
     public static void main(String[] args) {
         Game goFish = new Game();
+        // Run play game
         goFish.playGame();
     }
 
