@@ -41,12 +41,12 @@ public class Game {
 
 
     // Needs to be debugged
-    public boolean checkHand(Player player, String choice) {
-        if (player.getHand().contains(choice)) {
-            return true;
-        }
-        return false;
-    }
+//    public boolean checkHand(Player player, String choice) {
+//        if (player.getHand().contains(choice)) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     // Checks which player has more points and returns
     public String gameOver() {
@@ -66,10 +66,10 @@ public class Game {
         System.out.println(player.getName() + "'s turn: what card would you like to fish for?");
         String choice = input.nextLine();
 
-        if (!checkHand(player, choice)) {
-            System.out.println("Invalid Input");
-            return;
-        }
+//        if (!checkHand(player, choice)) {
+//            System.out.println("Invalid Input");
+//            return;
+//        }
 
         // If players choice matches opponents card add it to new arraylist
         ArrayList<Card> matching = new ArrayList<Card>();
@@ -107,7 +107,7 @@ public class Game {
 
     public String checkBooks(Player player, ArrayList<Card> playerHand){
         int newBooks = 0;
-        for(int i =  0; i < 4; i++){
+        for(int i =  4; i > 0; i--){
             ArrayList<Card> copyHand = new ArrayList<Card>();
             int counter = 0;
             Card check = playerHand.get(i);
