@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -52,6 +53,11 @@ public class Player {
     // Adds new card to the players hand
     public void addCard(Card newCard){
         hand.add(newCard);
+    }
+
+
+    public void draw(Graphics g){
+
     }
 
     // To string method

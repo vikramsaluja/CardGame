@@ -14,6 +14,7 @@ public class Deck {
             }
         }
         cardsLeft = cards.size();
+        shuffle();
     }
 
     // Returns true if there are no cards left in deck

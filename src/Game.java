@@ -8,7 +8,11 @@ public class Game {
     private Player player1;
     private Player player2;
 
+    private GameView window;
+
     public Game() {
+        this.window = new GameView(this);
+        window.repaint();
         // Make a new deck for game
         String[] rank = {"Salmon", "Tuna", "Cod", "Catfish", "Bass", "Trout", "Herring", "Mackerel", "Sardine", "Haddock"};
         String[] suits = {"Red", "Blue", "Green", "Pink"};
@@ -35,6 +39,7 @@ public class Game {
             player1.addCard(deck.deal());
             player2.addCard(deck.deal());
         }
+
     }
 
     // Prints instructions of game
@@ -150,6 +155,7 @@ public class Game {
         Scanner input = new Scanner(System.in);
         System.out.println("Click Enter to Play!");
         input.nextLine();
+
 
         int turn = 0;
         // Keep playing rounds when cards are left in the pile
