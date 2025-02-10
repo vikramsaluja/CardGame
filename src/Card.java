@@ -1,13 +1,19 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class Card {
     private String rank;
     private String suit;
     private int value;
+    private Image image;
 
     // Constructor
-    public Card(String rank, String suit, int value) {
+    public Card(String rank, String suit, int value, String marker) {
         this.rank = rank;
         this.suit = suit;
         this.value = value;
+        String fileName = "Resources/" + marker;
+        this.image = new ImageIcon(fileName).getImage();
     }
 
     // Getters and setter for instance variables
@@ -21,6 +27,10 @@ public class Card {
 
     public String getSuit() {
         return suit;
+    }
+
+    public Image getImage(){
+        return this.image;
     }
 
     public void setSuit(String suit) {
@@ -44,6 +54,7 @@ public class Card {
             return false;
         }
     }
+
 
     public String toString() {
         return suit + " " +  rank;

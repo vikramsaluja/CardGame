@@ -7,15 +7,19 @@ public class Game {
     private Deck deck;
     private Player player1;
     private Player player2;
+    private int state;
 
     private GameView window;
 
     public Game() {
+        // Set the state to 0
+        this.state = 0;
+        // Create Window
         this.window = new GameView(this);
         window.repaint();
         // Make a new deck for game
-        String[] rank = {"Salmon", "Tuna", "Cod", "Catfish", "Bass", "Trout", "Herring", "Mackerel", "Sardine", "Haddock"};
-        String[] suits = {"Red", "Blue", "Green", "Pink"};
+        String[] rank = {"Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "Six"};
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
         int[] values = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
         this.deck = new Deck(rank, suits, values);
 
@@ -42,6 +46,22 @@ public class Game {
 
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
     // Prints instructions of game
     public static void printInstructions() {
         System.out.println("instructions: \nThis is a 2 player game where each player will get get random hand" +
@@ -58,6 +78,10 @@ public class Game {
 
     // Checks which player has more points and returns
     public String gameOver() {
+        // Set the state to 2 to change screen
+        this.state = 2;
+        window.repaint();
+
         if (player1.getPoints() > player2.getPoints()) {
             return "Game over! \n" + player1.getName() + " is the winner with " + player1.getPoints() + " books!";
         } else {
@@ -155,6 +179,10 @@ public class Game {
         Scanner input = new Scanner(System.in);
         System.out.println("Click Enter to Play!");
         input.nextLine();
+
+        // Set the state of the game to play
+        this.state = 1;
+        window.repaint();
 
 
         int turn = 0;

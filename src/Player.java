@@ -56,9 +56,6 @@ public class Player {
     }
 
 
-    public void draw(Graphics g){
-
-    }
 
     // To string method
     @Override

@@ -6,11 +6,13 @@ public class Deck {
 
     // Deck Constructor
     public Deck(String[] ranks, String[] suits, int[] values) {
+        int imageVal = 13;
         cards = new ArrayList<Card>();
-        for (String suit : suits){
-            for(int i = 0; i < ranks.length; i++){
+        for(int i = 0; i < ranks.length; i++){
+            for(String suit : suits){
                 // creates new card and sets variables
-                 cards.add(new Card(ranks[i], suit, values[i]));
+                cards.add(new Card(ranks[i], suit, values[i], imageVal + ".png"));
+                imageVal++;
             }
         }
         cardsLeft = cards.size();

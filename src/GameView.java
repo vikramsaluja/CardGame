@@ -16,32 +16,35 @@ public class GameView extends JFrame {
         this.setVisible(true);
     }
 
+    public void paintInstructions(Graphics g){
+        g.setColor(Color.white);
 
-
+        g.drawString("Go Fish Game", 395, 150);
+        g.drawString("Instructions:", 25, 200);
+        g.drawString("This is a 2 player game where each player will get get random hand containing a total of 6" +
+                " cards. The objective of the game is to get as", 25,220);
+        g.drawString("many sets of matching cards or 'books'. When it is your turn you will ask the opposing" +
+                " for a card of a certain rank and if the other player", 25, 240);
+        g.drawString("has that card you will recive it and get to ask again. However, if you ask for a rank" +
+                " that they do not have, you will randomly be dealt", 25, 260);
+        g.drawString("a card from the remaing pile of cards. The game ends when there are no cards left in" +
+                " the pile and whoever has the most 'books' wins!", 25, 280);
+        g.drawString("NOTE: the user inputs are case and spelling sensative", 25, 305);
+        g.drawString("Input Player Names", 380, 350);
+        g.drawString("Click Enter to Play", 380, 370);
+    }
 
 
 
     public void paint(Graphics g){
-        g.setColor(Color.white);
+        g.setColor(Color.blue);
         g.fillRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
 
-        g.setColor(Color.red);
-        String instructions = "Instructions: \nThis is a 2 player game where each player will get get random hand" +
-                "containing a total of 6 cards.\nThe objective of the game is to get as many sets of matching cards or" +
-                " 'books'. When it is your turn you will ask the opposing player\nfor a card of certain rank and if " +
-                "the other player has a card you will recieve it and get to ask again.\nHowever if you ask for a rank " +
-                " that they do not have, you will randomly be dealt a card from the remaining pile of cards.\nThe game" +
-                " ends when there are not cards left in the pile and whoever has the most 'books' is the winner!\n" +
-                "NOTE: when user inputs are case and spelling sensative\n";
-        g.drawString("Instructions:", 30, 200);
-        g.drawString("This is a 2 player game where each player will get get random hand containing a total of 6" +
-                " cards. The objective of the game is to get as", 30,220);
-        g.drawString("many sets of matching cards or 'books'. When it is your turn you will ask the opposing" +
-                " for a card of a certain rank and if the other player", 30, 240);
-        g.drawString("has that card you will recive it and get to ask again. However, if you ask for a rank" +
-                " that they do not have, you will randomly be dealt", 30, 260);
-        g.drawString("a card from the remaing pile of cards. The game ends when there are no cards left in" +
-                " the pile and whoever has the most 'books' wins!", 30, 280);
-        g.drawString("NOTE: the user inputs are case and spelling sensative", 290, 305);
+        if (this.game.getState() == 0) {
+            paintInstructions(g);
+        }
+        else if (this.game.getState() == 1){
+            g.drawImage(game.getPlayer1().getHand().getFirst().getImage(), 100,100, this);
+        }
     }
 }
