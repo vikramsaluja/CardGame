@@ -34,7 +34,14 @@ public class GameView extends JFrame {
         g.drawString("Click Enter to Play", 380, 370);
     }
 
-
+    public void paintHands(Graphics g){
+        for(int i = 0; i < game.getPlayer1().getHand().size(); i++) {
+            g.drawImage(game.getPlayer1().getHand().get(i).getImage(), 70 + (75 * i), 50, 65, 90, this);
+        }
+        for(int i = 0; i < game.getPlayer2().getHand().size(); i++) {
+            g.drawImage(game.getPlayer2().getHand().get(i).getImage(), 830 - (75 * i), 600, 65, 90, this);
+        }
+    }
 
     public void paint(Graphics g){
         g.setColor(Color.blue);
@@ -44,7 +51,8 @@ public class GameView extends JFrame {
             paintInstructions(g);
         }
         else if (this.game.getState() == 1){
-            g.drawImage(game.getPlayer1().getHand().getFirst().getImage(), 100,100, this);
+            g.drawImage(new ImageIcon("Resources/back.png").getImage(),100, 325,65,90,this);
+            paintHands(g);
         }
     }
 }
