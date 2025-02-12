@@ -98,28 +98,27 @@ public class Game {
         System.out.println(player.getName() + "'s turn: what card would you like to fish for?");
         String choice = input.nextLine();
 
-
+        boolean swap = false;
         // If players choice matches opponents card add it to new arraylist
         ArrayList<Card> matching = new ArrayList<Card>();
-        for (Card card : opponent.getHand()) {
-            if (card.getRank().equals(choice)) {
-                matching.add(card);
+        for(int i = 0; i < opponent.getHand().size(); i++){
+            if(opponent.getHand().get(i).getSuit().equals(choice)){
+                matching.add(opponent.getHand().get(i));
+                // Add opponents matching cards to player's hand
+                player.addCard(opponent.getHand().get(i));
+                // Remove the matching cards from opponents hands
+                opponent.getHand().remove(i);
+                i--;
+                // Indicate that there was a matching card
+                swap = true;
             }
         }
-
-        // If matching arraylist isn't empty then transfer all of opponent's cards to player
-        if (!matching.isEmpty()) {
-            for (Card card : matching) {
-                opponent.getHand().remove(card);
-                player.addCard(card);
-            }
+        if(swap) {
             System.out.println(opponent.getName() + " gave you " + matching.size() + " cards");
         }
         // If there were no matches then player takes card from empty pile
         else {
             System.out.println("No Match, Pick card from a pile");
-
-            // Give player card from pile if there are cards left
             Card newCard = deck.deal();
             if (newCard != null) {
                 player.addCard(newCard);
@@ -130,6 +129,7 @@ public class Game {
                 System.out.println("No cards left in pile!");
             }
         }
+
         System.out.println(checkBooks(player));
     }
 
@@ -142,7 +142,10 @@ public class Game {
         while(i < playerHand.size()){
             // Make a copy of players hand
             ArrayList<Card> copyHand = new ArrayList<Card>();
-            copyHand = playerHand;
+//            copyHand = playerHand;
+            for(int h = 0; h < playerHand.size(); h++){
+                copyHand.add(playerHand.get(h));
+            }
             int counter = 0;
 
             // Set the card that is being checked
@@ -152,14 +155,11 @@ public class Game {
             for(int j = 0; j < playerHand.size(); j++){
                 if(Card.sameSuit(check, playerHand.get(j))){
                     counter++;
-                    copyHand.remove(j);
                 }
             }
 
             // If the player does have 4 kind then set the players hand to the copy and increment points
             if (counter == 4) {
-                player.setHand(copyHand);
-                playerHand = copyHand;
                 newBooks += 1;
                 player.addPoints(1);
             }
@@ -191,6 +191,8 @@ public class Game {
             // Print out both the players hands
             System.out.println(player1.getName() + "'s cards:" + player1.getHand());
             System.out.println(player2.getName() + "'s cards:" + player2.getHand());
+
+            window.repaint();
 
             // Alternate which players turn it is
             if (turn % 2 == 0) {

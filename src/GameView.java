@@ -36,10 +36,14 @@ public class GameView extends JFrame {
 
     public void paintHands(Graphics g){
         for(int i = 0; i < game.getPlayer1().getHand().size(); i++) {
+            g.setColor(Color.white);
             g.drawImage(game.getPlayer1().getHand().get(i).getImage(), 70 + (75 * i), 50, 65, 90, this);
+            g.drawString(game.getPlayer1().getName(), 70, 200);
         }
         for(int i = 0; i < game.getPlayer2().getHand().size(); i++) {
+            g.setColor(Color.white);
             g.drawImage(game.getPlayer2().getHand().get(i).getImage(), 830 - (75 * i), 600, 65, 90, this);
+            g.drawString(game.getPlayer2().getName(), 830, 600);
         }
     }
 
