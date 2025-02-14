@@ -18,7 +18,7 @@ public class Game {
         this.window = new GameView(this);
         window.repaint();
         // Make a new deck for game
-        String[] rank = {"Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "Six"};
+        String[] rank = {"Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
         String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
         int[] values = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
         this.deck = new Deck(rank, suits, values);
@@ -89,6 +89,14 @@ public class Game {
         }
     }
 
+    // Checks both players hands to check if either have an empty hand
+    public boolean handEmpty(){
+        if (player1.getHand().isEmpty() || player2.getHand().isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     // 1. Ask player for what rank card they want to fish for
     // 2. Check to make sure player contains at least card of the rank that they are asking for
     // 3. if opponent has a card of that rank then it adds that card to player hand and removes it from player 2
@@ -134,42 +142,49 @@ public class Game {
     }
 
     public String checkBooks(Player player){
-        ArrayList<Card> playerHand = player.getHand();
-        int newBooks = 0;
+        // Set variables for each suit
+        int hearts = 0;
+        int spades = 0;
+        int clubs = 0;
+        int diamonds = 0;
 
-        // For each card in opponent's hand
-        int i = 0;
-        while(i < playerHand.size()){
-            // Make a copy of players hand
-            ArrayList<Card> copyHand = new ArrayList<Card>();
-//            copyHand = playerHand;
-            for(int h = 0; h < playerHand.size(); h++){
-                copyHand.add(playerHand.get(h));
+        // Increment each variable if the player contains a card of that suit
+        for (int i = 0; i < player.getHand().size(); i++){
+            if(player.getHand().get((i)).getSuit().equals("Hearts")){
+                hearts++;
             }
-            int counter = 0;
-
-            // Set the card that is being checked
-            Card check = playerHand.get(i);
-
-            // Find all matches to card and remove it from copy hand
-            for(int j = 0; j < playerHand.size(); j++){
-                if(Card.sameSuit(check, playerHand.get(j))){
-                    counter++;
-                }
+            if(player.getHand().get((i)).getSuit().equals("Spades")){
+                spades++;
             }
-
-            // If the player does have 4 kind then set the players hand to the copy and increment points
-            if (counter == 4) {
-                newBooks += 1;
-                player.addPoints(1);
+            if(player.getHand().get((i)).getSuit().equals("Clubs")){
+                clubs++;
             }
-            else {
-                // If there is no match increment because array list has not shifted down
-                i++;
+            if(player.getHand().get((i)).getSuit().equals("Diamonds")){
+                diamonds++;
             }
         }
+
+        // Add the number of books for each suit to players number of books
+        // Remove 4 cards of the suit to players other hand
+        if(hearts / 4 == 1){
+            player.addNumBooks(1);
+            player.removeBooks("Hearts");
+        }
+        else if(spades / 4 == 1){
+            player.addNumBooks(1);
+            player.removeBooks("Spades");
+        }
+        else if(clubs / 4 == 1){
+            player.addNumBooks(1);
+            player.removeBooks("Clubs");
+        }
+        else if(diamonds / 4 == 1){
+            player.addNumBooks(1);
+            player.removeBooks("Diamonds");
+        }
+
         // After each round is played tell user how many books they have
-        return player.getName() + " has " + newBooks + " new Books!";
+        return player.getName() + " has " + player.getNumBooks() + " new Books!";
     }
 
     // Method that runs the game
@@ -187,7 +202,7 @@ public class Game {
 
         int turn = 0;
         // Keep playing rounds when cards are left in the pile
-        while (!deck.isEmpty()) {
+        while (!deck.isEmpty() || !handEmpty()) {
             // Print out both the players hands
             System.out.println(player1.getName() + "'s cards:" + player1.getHand());
             System.out.println(player2.getName() + "'s cards:" + player2.getHand());
@@ -199,7 +214,7 @@ public class Game {
                 playRound(player1, player2);
                 turn++;
             }
-            else {
+            else if(!handEmpty()){
                 playRound(player2, player1);
                 turn++;
             }
