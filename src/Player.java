@@ -20,7 +20,7 @@ public class Player {
     public Player(String name, ArrayList<Card> newHand){
         this.name = name;
         this.hand = newHand;
-        this.points = points;
+        this.points = 0;
         this.books = new ArrayList<>();
         this.numBooks = 0;
     }
@@ -58,9 +58,10 @@ public class Player {
         this.numBooks += newBooks;
     }
 
-    public void setNumBooks(int numBooks){
-        this.numBooks = numBooks;
+    public ArrayList<Card> getBooks(){
+        return this.books;
     }
+
 
     // Takes in number of points and adds it to player's points
     public void addPoints(int points){

@@ -8,6 +8,7 @@ public class Game {
     private Player player1;
     private Player player2;
     private int state;
+    private int winner;
 
     private GameView window;
 
@@ -46,6 +47,8 @@ public class Game {
 
     }
 
+
+    // Getter and setter method for instance variables
     public int getState() {
         return state;
     }
@@ -62,6 +65,13 @@ public class Game {
         return player2;
     }
 
+    public int getWinner(){
+        return this.winner;
+    }
+
+    public void setWinner(int winner){
+        this.winner = winner;
+    }
     // Prints instructions of game
     public static void printInstructions() {
         System.out.println("instructions: \nThis is a 2 player game where each player will get get random hand" +
@@ -80,12 +90,12 @@ public class Game {
     public String gameOver() {
         // Set the state to 2 to change screen
         this.state = 2;
-        window.repaint();
-
         if (player1.getPoints() > player2.getPoints()) {
-            return "Game over! \n" + player1.getName() + " is the winner with " + player1.getPoints() + " books!";
-        } else {
-            return "Game over! \n" + player2.getName() + " is the winner with " + player2.getPoints() + " books!";
+            return "Game Over! \n" + player1.getName() + " is the Winner with " + player1.getPoints() + " Books!";
+
+        }
+        else {
+            return "Game Over! \n" + player2.getName() + " is the Winner with " + player2.getPoints() + " Books!";
         }
     }
 
@@ -121,6 +131,7 @@ public class Game {
                 swap = true;
             }
         }
+        // If there were cards transferred, indicate the players
         if(swap) {
             System.out.println(opponent.getName() + " gave you " + matching.size() + " cards");
         }
@@ -169,18 +180,22 @@ public class Game {
         if(hearts / 4 == 1){
             player.addNumBooks(1);
             player.removeBooks("Hearts");
+            player.addPoints(1);
         }
         else if(spades / 4 == 1){
             player.addNumBooks(1);
             player.removeBooks("Spades");
+            player.addPoints(1);
         }
         else if(clubs / 4 == 1){
             player.addNumBooks(1);
             player.removeBooks("Clubs");
+            player.addPoints(1);
         }
         else if(diamonds / 4 == 1){
             player.addNumBooks(1);
             player.removeBooks("Diamonds");
+            player.addPoints(1);
         }
 
         // After each round is played tell user how many books they have
@@ -199,10 +214,10 @@ public class Game {
         this.state = 1;
         window.repaint();
 
-
+        // Variable to keep track of which player's turn it is
         int turn = 0;
         // Keep playing rounds when cards are left in the pile
-        while (!deck.isEmpty() || !handEmpty()) {
+        while (!deck.isEmpty() && !handEmpty()) {
             // Print out both the players hands
             System.out.println(player1.getName() + "'s cards:" + player1.getHand());
             System.out.println(player2.getName() + "'s cards:" + player2.getHand());
@@ -222,6 +237,7 @@ public class Game {
 
         // When deck is empty end game and print out winner
         gameOver();
+        window.repaint();
     }
 
     // Main method
